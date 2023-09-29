@@ -25,7 +25,7 @@ export const addDesign = async (req, res) => {
       pattern: data.pattern,
       FrontImage: image[2],
       BackImage: image[1],
-      DetailImage: image[0].map((item) => ({ url: item })),
+      DetailImage: image[0],
     });
     const sizeInput = data.size.map((item) => ({
       size: item,

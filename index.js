@@ -6,6 +6,7 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import { connectToDatabase } from "./functions/database.js";
 import DesignRoutes from "./routes/designRoutes.js";
+import ProductRoutes from "./routes/productRoutes.js";
 import "./functions/function.js";
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/design", DesignRoutes);
+app.use("/product", ProductRoutes);
 connectToDatabase();
 const port = parseInt(process.env.PORT) || 7070;
 app.listen(port, () => {

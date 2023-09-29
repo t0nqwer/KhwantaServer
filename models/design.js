@@ -12,7 +12,7 @@ const designSchema = new Schema({
   pattern: { type: String, required: true },
   FrontImage: { type: String, required: true },
   BackImage: { type: String, required: true },
-  DetailImage: [detailImageSchema],
+  DetailImage: Array,
 });
 
 const Design = model("Design", designSchema);
