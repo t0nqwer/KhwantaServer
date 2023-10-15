@@ -58,33 +58,67 @@ export const FetchAllClothProducts = async (req, res) => {
   const limit = 20;
 
   try {
-    const products = await Product.find({
+    const Designdata = await Design.find({
       $or: [
         { name: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
+        { code: { $regex: search, $options: "i" } },
+        { category: { $regex: search, $options: "i" } },
+        { brand: { $regex: search, $options: "i" } },
+        { pattern: { $regex: search, $options: "i" } },
+      ],
+    }).select("_id");
+    const fabricdata = await Fabric.find({
+      $or: [{ name: { $regex: search, $options: "i" } }],
+    }).select("_id");
+    const products = await Product.find({
+      $and: [
+        {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { description: { $regex: search, $options: "i" } },
+            { price: +search },
+            { design: { $in: Designdata.map((item) => item._id) } },
+            { fabric: { $in: fabricdata.map((item) => item._id) } },
+          ],
+        },
+        {
+          category: "เสื้อผ้า",
+        },
+        {
+          supplier: "Khwanta",
+        },
       ],
     })
       .skip((page - 1) * limit)
       .limit(limit)
       .populate("design fabric")
       .exec();
-    console.log(products);
 
     const total = await Product.countDocuments({
-      $or: [
-        { name: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
+      $and: [
+        {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { description: { $regex: search, $options: "i" } },
+            { design: { $in: Designdata.map((item) => item._id) } },
+            { fabric: { $in: fabricdata.map((item) => item._id) } },
+          ],
+        },
+        {
+          category: "เสื้อผ้า",
+        },
+        {
+          supplier: "Khwanta",
+        },
       ],
     })
       .count()
       .exec();
-    console.log(total);
     res.status(200).json({ products, pagecount: Math.ceil(total / 20) });
   } catch (error) {
     console.log(error);
   }
 };
-
 export const FetchProductById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -96,3 +130,4 @@ export const FetchProductById = async (req, res) => {
     console.log(error);
   }
 };
+export const DeleteProductById = async (req, res) => {};

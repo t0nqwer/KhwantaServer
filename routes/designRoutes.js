@@ -4,11 +4,12 @@ import {
   getDesignById,
   getDesigns,
 } from "../controllers/design/fetchDesign.js";
+import { editDesign } from "../controllers/design/editDesign.js";
 
 const router = express.Router();
 
 router.route("/addDesign").get(GetAddDesign).post(addDesign);
 router.route("/design").get(getDesigns);
-router.route("/:id").get(getDesignById);
+router.route("/:id").get(getDesignById).put(editDesign);
 
 export default router;

@@ -8,7 +8,7 @@ const detailSchema = new Schema({
 
 const sizeSchema = new Schema({
   size: { type: String, required: true },
-  details: [detailSchema],
+  details: Array,
   design: { type: Schema.Types.ObjectId, ref: Design, required: true },
 });
 

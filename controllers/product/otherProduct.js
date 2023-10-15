@@ -1,6 +1,7 @@
 import Supplier from "../../models/supplier.js";
 import ProductCategory from "../../models/productCategory.js";
 import Product from "../../models/product.js";
+import Barcode from "../../models/barcode.js";
 
 export const GetAddOtherProduct = async (req, res) => {
   try {
@@ -18,6 +19,9 @@ export const GetAddOtherProduct = async (req, res) => {
 export const PostAddOtherProduct = async (req, res) => {
   try {
     const { name, price, supplier, category } = req.body.data;
+    const lastOtherId = await Product.findOne({
+      otherId: { $exists: true },
+    }).sort({ otherId: -1 });
     const frontImage = req.body.image[2];
     const backImage = req.body.image[1];
     const DetailImage = req.body.image[0];
@@ -28,16 +32,77 @@ export const PostAddOtherProduct = async (req, res) => {
       price,
       frontImage,
       backImage,
-      DetailImage,
-      otherId: 1,
+      DetailImage: DetailImage ? DetailImage : [],
+      otherId: lastOtherId ? lastOtherId.otherId + 1 : 1,
     });
     await newProduct.save();
-    // console.log(newProduct);
-    // throw new Error("Not implemented");
+    const categoryId = await ProductCategory.findOne({ name: category });
+    const supplierId = await Supplier.findOne({ name: supplier });
+    const barcode = new Barcode({
+      product: newProduct._id,
+      barcode: `OT${(lastOtherId ? lastOtherId.otherId + 1 : 1 + 1000)
+        .toString()
+        .slice(-3)}${(categoryId.id + 100).toString().slice(-2)}${(
+        supplierId.id + 100
+      )
+        .toString()
+        .slice(-2)}`,
+    });
+    await barcode.save();
+
     res.status(200).json({ message: "success", id: newProduct._id });
   } catch (error) {
     console.log(error);
     res.status(409).json({ message: error.message });
   }
 };
-export const FetchAllOtherProducts = async (req, res) => {};
+export const FetchAllOtherProducts = async (req, res) => {
+  const { search, page } = req.query;
+
+  const limit = 20;
+  try {
+    const data = await Product.find({
+      $and: [
+        { otherId: { $exists: true } },
+        {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { supplier: { $regex: req.query.search, $options: "i" } },
+            { category: { $regex: req.query.search, $options: "i" } },
+          ],
+        },
+      ],
+    })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const total = await Product.countDocuments({
+      $and: [
+        { otherId: { $exists: true } },
+        {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { supplier: { $regex: req.query.search, $options: "i" } },
+            { category: { $regex: req.query.search, $options: "i" } },
+          ],
+        },
+      ],
+    });
+    res.status(200).json({ products: data, pagecount: Math.ceil(total / 20) });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+export const FetchOtherProductById = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    const barcode = await Barcode.findOne({ product: product._id });
+
+    res.status(200).json({ ...product._doc, barcode: barcode.barcode });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+export const DeleteOtherProductById = async (req, res) => {};

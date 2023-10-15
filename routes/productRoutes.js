@@ -6,10 +6,14 @@ import {
   PostAddClothProduct,
 } from "../controllers/product/clothProduct.js";
 import {
+  FetchAllOtherProducts,
+  FetchOtherProductById,
   GetAddOtherProduct,
   PostAddOtherProduct,
 } from "../controllers/product/otherProduct.js";
 import {
+  FetchAllExampleProducts,
+  FetchExampleProductById,
   GetAddExampleProduct,
   PostAddExampleProduct,
 } from "../controllers/product/exampleProduct.js";
@@ -28,6 +32,10 @@ router
   .get(GetAddExampleProduct)
   .post(PostAddExampleProduct);
 router.route("/cloth").get(FetchAllClothProducts);
+router.route("/other").get(FetchAllOtherProducts);
+router.route("/example").get(FetchAllExampleProducts);
 router.route("/cloth/:id").get(FetchProductById);
+router.route("/other/:id").get(FetchOtherProductById);
+router.route("/example/:id").get(FetchExampleProductById);
 
 export default router;
