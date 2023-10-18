@@ -20,12 +20,17 @@ export const Register = async (req, res) => {
   const { frist_thai, frist_eng, last_thai, last_eng, birthday } = req.body;
 
   try {
+    const CheckUser = await Employee.findOne({
+      firstname: frist_eng,
+      lastname: last_eng,
+    });
+    if (CheckUser) throw new Error("User already exists");
     const password = birthday.replace("-", "").replace("-", "");
-    console.log(password);
+
     const birth = new Date(birthday);
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const user = await Employee.create({
+    await Employee.create({
       firstname: frist_eng,
       lastname: last_eng,
       thaifirstname: frist_thai,
@@ -34,8 +39,8 @@ export const Register = async (req, res) => {
       password: hash,
       birthday: birth,
     });
-    const token = createToken(user._id);
-    res.status(201).json({ user, token });
+    const AllUser = await Employee.find();
+    res.status(201).json(AllUser);
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });
@@ -58,5 +63,32 @@ export const Login = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const GetAllUser = async (req, res) => {
+  try {
+    const user = await Employee.find();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+export const CheckToken = async (req, res) => {
+  const { authorization, username } = req.headers;
+  if (!username) {
+    console.log(1);
+    return res.status(401).json({ error: "Request timeout" });
+  }
+  if (!authorization) {
+    return res.status(401).json({ error: "Authorization token required" });
+  }
+  const token = authorization.split(" ")[1];
+  try {
+    const decoded = verify(token, process.env.SECRET);
+    console.log(decoded);
+    return res.status(200).json({ message: "valid token" });
+  } catch (error) {
+    return res.status(401).json({ error: "Invalid token" });
   }
 };

@@ -9,11 +9,11 @@ const employeeSchema = new Schema({
     type: String,
     required: true,
   },
-  email: { type: String },
   password: { type: String, required: true },
   birthday: { type: Date, required: true },
   role: { type: String, required: true, default: "employee" },
   createdAt: { type: Date, default: Date.now },
+  priority: { type: Number, default: 0 },
 });
 
 const Employee = model("Employee", employeeSchema);

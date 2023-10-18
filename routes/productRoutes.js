@@ -17,7 +17,9 @@ import {
   GetAddExampleProduct,
   PostAddExampleProduct,
 } from "../controllers/product/exampleProduct.js";
+import { verifyData } from "../middleware/Auth.js";
 const router = express.Router();
+router.use(verifyData);
 
 router
   .route("/addClothProduct")
