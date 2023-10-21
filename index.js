@@ -8,6 +8,7 @@ import { connectToDatabase } from "./functions/database.js";
 import DesignRoutes from "./routes/designRoutes.js";
 import ProductRoutes from "./routes/productRoutes.js";
 import UserRoutes from "./routes/userRoutes.js";
+import FabricRoutes from "./routes/fabricRoutes.js";
 import "./functions/function.js";
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(cors());
 app.use("/design", DesignRoutes);
 app.use("/product", ProductRoutes);
 app.use("/user", UserRoutes);
+app.use("/fabric", FabricRoutes);
 connectToDatabase();
 const port = parseInt(process.env.PORT) || 7070;
 app.listen(port, () => {

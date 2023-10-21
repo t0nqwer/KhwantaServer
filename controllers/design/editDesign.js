@@ -95,9 +95,9 @@ export const AddDetailImage = async (req, res) => {
 
 export const DeleteDetailImage = async (req, res) => {
   const { id, img } = req.body;
+  console.log(id, img);
 
   const desertRef = ref(storage, img);
-
   deleteObject(desertRef)
     .then(async () => {
       console.log("delete success");

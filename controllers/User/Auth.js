@@ -13,6 +13,7 @@ const createToken = (id) => {
   console.log(Math.floor(tomorrow / 1000));
   return sign({ id }, SECRET, {
     expiresIn: Math.floor(tomorrow / 1000) - Math.floor(today / 1000),
+    // expiresIn: "10000",
   });
 };
 

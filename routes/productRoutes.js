@@ -18,6 +18,11 @@ import {
   PostAddExampleProduct,
 } from "../controllers/product/exampleProduct.js";
 import { verifyData } from "../middleware/Auth.js";
+import {
+  AddDetailImage,
+  ChangeProductPrice,
+  DeleteDetailImage,
+} from "../controllers/product/Product.js";
 const router = express.Router();
 router.use(verifyData);
 
@@ -39,5 +44,7 @@ router.route("/example").get(FetchAllExampleProducts);
 router.route("/cloth/:id").get(FetchProductById);
 router.route("/other/:id").get(FetchOtherProductById);
 router.route("/example/:id").get(FetchExampleProductById);
+router.put("/updatePrice", ChangeProductPrice);
+router.route("/detailImage").post(AddDetailImage).put(DeleteDetailImage);
 
 export default router;

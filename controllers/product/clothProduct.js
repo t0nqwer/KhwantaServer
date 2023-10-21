@@ -124,8 +124,8 @@ export const FetchProductById = async (req, res) => {
   try {
     const product = await Product.findById(id).populate("design fabric").exec();
     const size = await Size.find({ design: product.design._id }).exec();
-    console.log({ product });
-    res.status(200).json({ ...product._doc, size });
+    const barcode = await Barcode.find({ product: product._id }).exec();
+    res.status(200).json({ ...product._doc, size, barcode });
   } catch (error) {
     console.log(error);
   }
