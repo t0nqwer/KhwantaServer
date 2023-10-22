@@ -9,6 +9,8 @@ import DesignRoutes from "./routes/designRoutes.js";
 import ProductRoutes from "./routes/productRoutes.js";
 import UserRoutes from "./routes/userRoutes.js";
 import FabricRoutes from "./routes/fabricRoutes.js";
+import StoreRoutes from "./routes/storeRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import "./functions/function.js";
 
 dotenv.config();
@@ -24,6 +26,8 @@ app.use("/design", DesignRoutes);
 app.use("/product", ProductRoutes);
 app.use("/user", UserRoutes);
 app.use("/fabric", FabricRoutes);
+app.use("/store", StoreRoutes);
+app.use("/dashboard", dashboardRoutes);
 connectToDatabase();
 const port = parseInt(process.env.PORT) || 7070;
 app.listen(port, () => {
