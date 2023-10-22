@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import { connectToDatabase } from "./functions/database.js";
 import DesignRoutes from "./routes/designRoutes.js";
 import ProductRoutes from "./routes/productRoutes.js";
-import UserRoutes from "./routes/userRoutes.js";
+import UserRoutes from "./routes/UserRoutes.js";
 import FabricRoutes from "./routes/fabricRoutes.js";
 import StoreRoutes from "./routes/storeRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
