@@ -70,13 +70,17 @@ export const FetchAllClothProducts = async (req, res) => {
     const fabricdata = await Fabric.find({
       $or: [{ name: { $regex: search, $options: "i" } }],
     }).select("_id");
+    console.log(typeof search === "number" ? +search : 0);
+    console.log(isNaN(+search) ? 0 : +search);
+
     const products = await Product.find({
       $and: [
         {
           $or: [
             { name: { $regex: search, $options: "i" } },
             { description: { $regex: search, $options: "i" } },
-            { price: +search },
+            { price: isNaN(+search) ? 0 : +search },
+
             { design: { $in: Designdata.map((item) => item._id) } },
             { fabric: { $in: fabricdata.map((item) => item._id) } },
           ],
@@ -101,6 +105,7 @@ export const FetchAllClothProducts = async (req, res) => {
             { name: { $regex: search, $options: "i" } },
             { description: { $regex: search, $options: "i" } },
             { design: { $in: Designdata.map((item) => item._id) } },
+            { price: isNaN(+search) ? 0 : +search },
             { fabric: { $in: fabricdata.map((item) => item._id) } },
           ],
         },
