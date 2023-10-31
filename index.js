@@ -11,6 +11,7 @@ import UserRoutes from "./routes/UserRoutes.js";
 import FabricRoutes from "./routes/fabricRoutes.js";
 import StoreRoutes from "./routes/storeRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import lalynnRoutes from "./routes/lalynnRoutes.js";
 import "./functions/function.js";
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use("/user", UserRoutes);
 app.use("/fabric", FabricRoutes);
 app.use("/store", StoreRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/lalynnwebsite", lalynnRoutes);
 connectToDatabase();
 const port = parseInt(process.env.PORT) || 7070;
 app.listen(port, () => {
