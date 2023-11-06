@@ -8,6 +8,11 @@ const transferSchema = new Schema({
     required: true,
     enum: ["transport", "success", "cancel"],
   },
+  type: {
+    type: String,
+    required: true,
+    enum: ["import", "export", "manufacture"],
+  },
   createdAt: { type: Date, default: Date.now },
   product: { type: Array, required: true },
 });

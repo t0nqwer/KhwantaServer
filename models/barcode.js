@@ -1,9 +1,10 @@
 import { Schema, model } from "mongoose";
+import Size from "./designSize.js";
 
 const barcodeSchema = new Schema({
   barcode: { type: String, required: true },
   product: { type: Schema.Types.ObjectId, ref: "Product" },
-  size: { type: Schema.Types.ObjectId, ref: "Size" },
+  size: { type: Schema.Types.ObjectId, ref: Size },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -5,7 +5,7 @@ const storeSchema = new Schema({
   address: { type: String, required: true },
   openDate: { type: Date, default: Date.now },
   closeDate: { type: Date },
-  type: { type: String, required: true, enum: ["store", "event"] },
+  type: { type: String, required: true, enum: ["store", "event", "warehouse"] },
   image: { type: String },
 });
 
