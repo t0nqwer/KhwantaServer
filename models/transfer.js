@@ -13,9 +13,9 @@ const transferSchema = new Schema({
     required: true,
     enum: ["import", "export", "manufacture"],
   },
+  localid: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   product: { type: Array, required: true },
 });
-
 const Transfer = model("Transfer", transferSchema);
 export default Transfer;

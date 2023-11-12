@@ -13,6 +13,7 @@ import StoreRoutes from "./routes/storeRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import lalynnRoutes from "./routes/lalynnRoutes.js";
 import StockProgramRoutes from "./routes/stockProgramRoutes.js";
+import StockRoutes from "./routes/stockRoutes.js";
 import "./functions/function.js";
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use("/store", StoreRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/lalynnwebsite", lalynnRoutes);
 app.use("/stockApi", StockProgramRoutes);
+app.use("/stock", StockRoutes);
 connectToDatabase();
 const port = parseInt(process.env.PORT) || 7070;
 app.listen(port, () => {
