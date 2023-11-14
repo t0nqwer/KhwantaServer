@@ -54,7 +54,7 @@ export const PostAddClothProduct = async (req, res) => {
 };
 export const FetchAllClothProducts = async (req, res) => {
   const { search, page } = req.query;
-  console.log(search, page);
+
   const limit = 20;
 
   try {
@@ -76,13 +76,18 @@ export const FetchAllClothProducts = async (req, res) => {
     const products = await Product.find({
       $and: [
         {
-          $or: [
-            { name: { $regex: search, $options: "i" } },
-            { description: { $regex: search, $options: "i" } },
-            { price: isNaN(+search) ? 0 : +search },
+          $and: [
+            { fabric: { $ne: null } },
+            {
+              $or: [
+                { name: { $regex: search, $options: "i" } },
+                { description: { $regex: search, $options: "i" } },
+                { price: isNaN(+search) ? 0 : +search },
 
-            { design: { $in: Designdata.map((item) => item._id) } },
-            { fabric: { $in: fabricdata.map((item) => item._id) } },
+                { design: { $in: Designdata.map((item) => item._id) } },
+                { fabric: { $in: fabricdata.map((item) => item._id) } },
+              ],
+            },
           ],
         },
         {
@@ -98,7 +103,7 @@ export const FetchAllClothProducts = async (req, res) => {
       .populate("design fabric")
       .exec();
 
-    const total = await Product.countDocuments({
+    const totaldata = await Product.find({
       $and: [
         {
           $or: [
@@ -116,9 +121,9 @@ export const FetchAllClothProducts = async (req, res) => {
           supplier: "Khwanta",
         },
       ],
-    })
-      .count()
-      .exec();
+    });
+
+    const total = totaldata.filter((item) => item.fabric !== null).length;
     res.status(200).json({ products, pagecount: Math.ceil(total / 20) });
   } catch (error) {
     console.log(error);
