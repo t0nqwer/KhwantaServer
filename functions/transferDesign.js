@@ -75,7 +75,6 @@ const transferBarcode = async () => {
     console.log(error);
   }
 };
-
 const transfer = async () => {
   await connectToDatabase();
   try {
@@ -114,4 +113,5 @@ const transfer = async () => {
     console.log(error);
   }
 };
-transferDesign();
+
+// transferDesign();

@@ -45,7 +45,14 @@ export const PostAddClothProduct = async (req, res) => {
         .slice(-3)}${item.size === "FREESIZE" ? "F" : item.size}`,
     }));
     await Barcode.insertMany(createbarcode);
-    console.log(createbarcode);
+    const BarcodeArray = createbarcode.map((item) => item.barcode);
+    const updatedBarcode = await Barcode.find({
+      barcode: { $in: BarcodeArray },
+    })
+      .populate("product")
+      .populate("size")
+      .exec();
+
     res.status(200).json({ message: "success", id: resdata._id });
   } catch (error) {
     await Product.deleteOne({ name: req.body.data.name });

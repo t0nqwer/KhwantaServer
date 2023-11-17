@@ -11,6 +11,7 @@ const designSchema = new Schema({
   category: { type: String, required: true },
   pattern: { type: String, required: true },
   FrontImage: { type: String, required: true },
+  frontthumbnail: String,
   BackImage: { type: String, required: true },
   DetailImage: Array,
 });

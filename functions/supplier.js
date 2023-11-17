@@ -26,4 +26,4 @@ const GetAddSupplier = async () => {
   await Supplier.insertMany(data);
   mongoose.disconnect();
 };
-GetAddSupplier();
+// GetAddSupplier();

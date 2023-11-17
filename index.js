@@ -15,6 +15,7 @@ import lalynnRoutes from "./routes/lalynnRoutes.js";
 import StockProgramRoutes from "./routes/stockProgramRoutes.js";
 import StockRoutes from "./routes/stockRoutes.js";
 import "./functions/function.js";
+import { socketConnection } from "./socket.io/index.js";
 
 dotenv.config();
 const app = express();
@@ -36,6 +37,8 @@ app.use("/stockApi", StockProgramRoutes);
 app.use("/stock", StockRoutes);
 connectToDatabase();
 const port = parseInt(process.env.PORT) || 7070;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`helloworld: listening on http://localhost:${port}`);
 });
+
+socketConnection(server);

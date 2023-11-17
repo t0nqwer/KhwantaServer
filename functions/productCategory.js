@@ -22,4 +22,4 @@ const GetAddProductCategory = async () => {
   mongoose.disconnect();
 };
 
-GetAddProductCategory();
+// GetAddProductCategory();

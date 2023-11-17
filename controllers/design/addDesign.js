@@ -17,6 +17,7 @@ export const addDesign = async (req, res) => {
   const data = req.body.data;
   const image = req.body.image;
   try {
+    console.log(data, image);
     const design = await Design.create({
       code: data.code,
       name: data.name,

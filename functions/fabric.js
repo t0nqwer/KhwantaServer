@@ -39,4 +39,4 @@ const getFabricData = async () => {
   return response.data.resdata;
 };
 
-getFabricData();
+// getFabricData();
