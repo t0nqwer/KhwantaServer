@@ -47,7 +47,6 @@ const TestDownload = async () => {
   const designcount = await Design.find({
     frontthumbnail: null,
   });
-  console.log(designcount.length);
   const finishprogress = 100 / designcount.length;
   const reuploadPromise = designcount.map(async (design) => {
     console.log(design.code);
@@ -93,4 +92,4 @@ const TestDownload = async () => {
 
 // addConstant();
 
-TestDownload();
+// TestDownload();

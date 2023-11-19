@@ -8,7 +8,6 @@ import { populate } from "dotenv";
 export const startApp = async (req, res) => {
   try {
     const barcodes = await Barcode.find()
-      //   .limit(1000)
       .populate("product")
       .populate("size")
       .exec();
@@ -42,15 +41,6 @@ export const startApp = async (req, res) => {
       return { ...e._doc, product: fabric };
     });
 
-    // const products = adddata.map((e) => ({
-    //   _id: e.barcode,
-    //   name: e.product.name,
-    //   design: e.design,
-    //   price: e.product.price,
-    //   size: e.size.size,
-    //   fabric: e.fabric,
-    // }))
-
     const stores = await Store.find();
     Promise.all(adddata).then(async (e) => {
       const product = e.map((e) => ({
@@ -62,12 +52,7 @@ export const startApp = async (req, res) => {
         fabric: e.product?.fabric?.name,
         supplier: e.product.supplier,
       }));
-      //   const noSize = product
-      //     .filter((e) => !e.size && e.design)
-      //     .map((e) => e._id);
 
-      //   await Barcode.deleteMany({ barcode: { $in: noSize } });
-      //   console.log(noSize);
       res.status(200).json({ data: product, stores });
     });
   } catch (error) {

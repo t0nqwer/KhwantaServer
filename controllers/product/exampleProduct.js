@@ -13,7 +13,7 @@ export const GetAddExampleProduct = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
-export const PostAddExampleProduct = async (req, res) => {
+export const PostAddExampleProduct = async (req, res, next) => {
   try {
     const { category, name, description, price } = req.body.data;
     const frontImage = req.body.image[2];
@@ -21,7 +21,7 @@ export const PostAddExampleProduct = async (req, res) => {
     const DetailImage = req.body.image[0];
     const lastExampleId = await Product.findOne({
       exampleId: { $exists: true },
-    }).sort({ otherId: -1 });
+    }).sort({ exampleId: -1 });
     const newProduct = new Product({
       name,
       supplier: "Khwanta",
@@ -42,9 +42,23 @@ export const PostAddExampleProduct = async (req, res) => {
         .slice(-4)}${new Date().getFullYear().toString().slice(-2)}`,
     });
     await barcode.save();
-    console.log(newProduct);
-    // throw new Error("Not implemented");
-    res.status(200).json({ message: "success", id: newProduct._id });
+    const newbarcode = await Barcode.find({ _id: barcode._id })
+      .populate("product")
+      .exec();
+    const product = newbarcode.map((e) => ({
+      _id: e.barcode,
+      name: e.product.name,
+      design: e?.product?.design?.code,
+      price: e.product.price,
+      size: e?.size?.size,
+      fabric: e.product?.fabric?.name,
+      supplier: e.product.supplier,
+    }));
+    req.Newproduct = product;
+    req.NewImage = frontImage;
+    req.resdata = { message: "success", id: newProduct._id };
+    next();
+    // res.status(200).json({ message: "success", id: newProduct._id });
   } catch (error) {
     console.log(error);
     res.status(409).json({ message: error.message });

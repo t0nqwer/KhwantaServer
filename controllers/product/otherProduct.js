@@ -16,7 +16,7 @@ export const GetAddOtherProduct = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
-export const PostAddOtherProduct = async (req, res) => {
+export const PostAddOtherProduct = async (req, res, next) => {
   try {
     const { name, price, supplier, category } = req.body.data;
     const lastOtherId = await Product.findOne({
@@ -49,8 +49,24 @@ export const PostAddOtherProduct = async (req, res) => {
         .slice(-2)}`,
     });
     await barcode.save();
+    const newbarcode = await Barcode.find({ _id: barcode._id })
+      .populate("product")
+      .exec();
+    const product = newbarcode.map((e) => ({
+      _id: e.barcode,
+      name: e.product.name,
+      design: e?.product?.design?.code,
+      price: e.product.price,
+      size: e?.size?.size,
+      fabric: e.product?.fabric?.name,
+      supplier: e.product.supplier,
+    }));
+    req.Newproduct = product;
+    req.NewImage = frontImage;
+    req.resdata = { message: "success", id: newProduct._id };
+    next();
 
-    res.status(200).json({ message: "success", id: newProduct._id });
+    // res.status(200).json({ message: "success", id: newProduct._id });
   } catch (error) {
     console.log(error);
     res.status(409).json({ message: error.message });

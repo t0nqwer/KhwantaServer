@@ -1,15 +1,16 @@
 import { Server } from "socket.io";
-let io;
+import { server } from "../index.js";
+const PORT = 7070;
+export let io = new Server(PORT);
+io.close();
 
-export const socketConnection = (server) => {
-  io = new Server(server);
-  io.on("connection", (socket) => {
-    console.log("a user connected", socket.id);
+io.on("connection", (socket) => {
+  console.log("a user connected", socket.id);
+  // socket.emit("newProduct", "data");
 
-    socket.on("disconnect", () => {
-      console.log("user disconnected");
-    });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
   });
-};
+});
 
 export const NotifyNewProduct = (data) => io.broadcast.emit("newProduct", data);

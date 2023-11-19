@@ -14,7 +14,7 @@ export const GetAddClothProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-export const PostAddClothProduct = async (req, res) => {
+export const PostAddClothProduct = async (req, res, next) => {
   try {
     const design = await Design.findOne({ code: req.body.data.code }).select(
       "_id name code"
@@ -53,7 +53,32 @@ export const PostAddClothProduct = async (req, res) => {
       .populate("size")
       .exec();
 
-    res.status(200).json({ message: "success", id: resdata._id });
+    const adddata = updatedBarcode.map(async (e) => {
+      const fabric = await Product.findById(e.product._id)
+        .populate("fabric")
+        .populate("design")
+        .exec();
+      return { ...e._doc, product: fabric };
+    });
+
+    Promise.all(adddata).then(async (e) => {
+      req.resdata = { message: "success", id: resdata._id };
+      req.NewImage = req.body.image[2];
+      const product = e.map((e) => ({
+        _id: e.barcode,
+        name: e.product.name,
+        design: e?.product?.design?.code,
+        price: e.product.price,
+        size: e?.size?.size,
+        fabric: e.product?.fabric?.name,
+        supplier: e.product.supplier,
+      }));
+      req.Newproduct = product;
+
+      next();
+    });
+
+    // res.status(200).json({ message: "success", id: resdata._id });
   } catch (error) {
     await Product.deleteOne({ name: req.body.data.name });
     res.status(500).json({ message: error.message });

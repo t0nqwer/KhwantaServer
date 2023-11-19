@@ -78,7 +78,6 @@ export const GetAllUser = async (req, res) => {
 export const CheckToken = async (req, res) => {
   const { authorization, username } = req.headers;
   if (!username) {
-    console.log(1);
     return res.status(401).json({ error: "Request timeout" });
   }
   if (!authorization) {
@@ -87,7 +86,7 @@ export const CheckToken = async (req, res) => {
   const token = authorization.split(" ")[1];
   try {
     const decoded = verify(token, process.env.SECRET);
-    console.log(decoded);
+
     return res.status(200).json({ message: "valid token" });
   } catch (error) {
     return res.status(401).json({ error: "Invalid token" });

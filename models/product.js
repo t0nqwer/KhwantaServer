@@ -11,11 +11,13 @@ const productSchema = new Schema({
   price: { type: Number, required: true },
   description: String,
   frontImage: { type: String, required: true },
+  frontthumbnail: String,
   backImage: { type: String, required: true },
   DetailImage: Array,
   clothCategory: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+
   clothId: Number,
   otherId: Number,
   exampleId: Number,
