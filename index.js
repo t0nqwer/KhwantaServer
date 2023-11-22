@@ -41,4 +41,4 @@ export const server = app.listen(port, () => {
   console.log(`helloworld: listening on http://localhost:${port}`);
 });
 
-io.attach(server);
+// io.attach(server);
