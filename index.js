@@ -15,7 +15,7 @@ import lalynnRoutes from "./routes/lalynnRoutes.js";
 import StockProgramRoutes from "./routes/stockProgramRoutes.js";
 import StockRoutes from "./routes/stockRoutes.js";
 import "./functions/function.js";
-// import { io } from "./socket.io/index.js";
+import { io } from "./socket.io/index.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -41,4 +41,4 @@ export const server = app.listen(port, () => {
   console.log(`helloworld: listening on http://localhost:${port}`);
 });
 
-// io.attach(server);
+io.attach(server);
