@@ -14,27 +14,6 @@ export const startApp = async (req, res) => {
       .populate("product")
       .populate("size")
       .exec();
-    // const updateSize = barcodes
-    //   .filter((e) => e.size)
-    //   .map(async (e) => {
-    //     let size = e.barcode.slice(-5).replace(/[0-9]/g, "");
-    //     size = size === "F" ? "FREESIZE" : size;
-    //     const design = await Size.findOne({
-    //       design: e.product.design,
-    //       size: size,
-    //     })
-    //       .populate("design")
-    //       .exec();
-    //     console.log({ design, size: e.size, newsize: size });
-    //     if (!design) {
-    //       console.log("no design");
-    //       return;
-    //     }
-    //     const update = await Barcode.findByIdAndUpdate(e._id, {
-    //       size: design._id,
-    //     });
-    //     return { update };
-    //   });
 
     const adddata = barcodes.map(async (e) => {
       const fabric = await Product.findById(e.product._id)
