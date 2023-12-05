@@ -21,7 +21,6 @@ export const StockIn = async (req, res, next) => {
     next();
   } catch (error) {
     await Transfer.findOneAndDelete({ localid: _id });
-    console.log(error);
 
     res.status(409).json({ message: error.message });
   }

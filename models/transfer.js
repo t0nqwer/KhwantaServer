@@ -11,10 +11,11 @@ const transferSchema = new Schema({
   type: {
     type: String,
     required: true,
-    enum: ["import", "export", "manufacture"],
+    enum: ["import", "export", "manufacture", "transfer"],
   },
   localid: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  successAt: { type: Date },
   product: { type: Array, required: true },
 });
 const Transfer = model("Transfer", transferSchema);

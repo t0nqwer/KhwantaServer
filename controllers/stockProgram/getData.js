@@ -4,8 +4,11 @@ import Design from "../../models/design.js";
 import Store from "../../models/store.js";
 import Size from "../../models//designSize.js";
 import { populate } from "dotenv";
+import Transfer from "../../models/transfer.js";
 
 export const startApp = async (req, res) => {
+  const { name } = req.body;
+  console.log(name);
   try {
     const barcodes = await Barcode.find()
       .populate("product")
@@ -52,10 +55,17 @@ export const startApp = async (req, res) => {
         fabric: e.product?.fabric?.name,
         supplier: e.product.supplier,
       }));
+      if (!name) return res.status(200).json({ data: product, stores });
 
-      res.status(200).json({ data: product, stores });
+      if (name) {
+        const transfer = await Transfer.find({
+          $or: [{ from: name }, { to: name }],
+        });
+        res.status(200).json({ data: product, stores, transfer });
+      }
     });
   } catch (error) {
+    console.log(error);
     res.status(404).json({ message: error.message });
   }
 };

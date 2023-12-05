@@ -7,6 +7,7 @@ const storeSchema = new Schema({
   closeDate: { type: Date },
   type: { type: String, required: true, enum: ["store", "event", "warehouse"] },
   image: { type: String },
+  connectionId: { type: String },
 });
 
 const Store = model("Store", storeSchema);
