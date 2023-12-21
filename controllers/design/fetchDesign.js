@@ -62,6 +62,7 @@ export const getDesignById = async (req, res) => {
     const design = await Design.findOne({ code: id });
     const size = await Size.find({ design: design._id });
 
+    console.log(design, size);
     res.status(200).json({
       status: 200,
       data: { design, size },

@@ -78,7 +78,10 @@ export const AddDetailImage = async (req, res) => {
   const { id, img } = req.body;
   try {
     const Designdata = await Design.findOne({ code: id });
-    const DetailImage = Designdata.DetailImage;
+    let DetailImage = Designdata.DetailImage;
+    if (!DetailImage) {
+      DetailImage = [];
+    }
     DetailImage.push(img);
     await Design.findOneAndUpdate(
       { code: id },
