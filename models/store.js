@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const storeSchema = new Schema({
+  storeRandomId: { type: String },
   name: { type: String, required: true },
   address: { type: String, required: true },
   openDate: { type: Date, default: Date.now },

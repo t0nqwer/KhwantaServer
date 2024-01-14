@@ -36,7 +36,6 @@ export const PostAddClothProduct = async (req, res, next) => {
     });
     const resdata = await product.save();
     const size = await Size.find({ design: design._id });
-    console.log(resdata, size);
     const createbarcode = size.map((item) => ({
       product: resdata._id,
       size: item._id,
@@ -74,7 +73,6 @@ export const PostAddClothProduct = async (req, res, next) => {
         supplier: e.product.supplier,
       }));
       req.Newproduct = product;
-
       next();
     });
 
@@ -88,7 +86,6 @@ export const FetchAllClothProducts = async (req, res) => {
   const { search, page } = req.query;
 
   const limit = 20;
-
   try {
     const Designdata = await Design.find({
       $or: [
@@ -102,8 +99,6 @@ export const FetchAllClothProducts = async (req, res) => {
     const fabricdata = await Fabric.find({
       $or: [{ name: { $regex: search, $options: "i" } }],
     }).select("_id");
-    console.log(typeof search === "number" ? +search : 0);
-    console.log(isNaN(+search) ? 0 : +search);
 
     const products = await Product.find({
       $and: [
