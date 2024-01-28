@@ -10,6 +10,7 @@ import {
   getMetadata,
 } from "firebase/storage";
 import sharp from "sharp";
+import CustomerIdCounter from "../models/Counter/customerIdCounter.js";
 const addConstant = async () => {
   await Constant.create({
     designCategory: [
@@ -85,6 +86,12 @@ const TestDownload = async () => {
   //   frontthumbnail: { $exists: false },
   // });
   // console.log(design.code);
+};
+const insertid = async () => {
+  const customer = await CustomerIdCounter.create({
+    CustomerId: 0,
+  });
+  console.log(customer);
 };
 
 // const blob = await getBlob(storageRef);

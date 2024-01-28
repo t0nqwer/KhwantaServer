@@ -7,7 +7,7 @@ const billSchema = new Schema({
   CustomProducts: Array,
   Order: { type: Schema.Types.ObjectId, ref: "Order" },
   payment: { type: String, enum: ["cash", "credit", "transfer"] },
-  totalBfDisocunt: { type: Number, default: 0 },
+  totalBfDiscount: { type: Number, default: 0 },
   discount: { type: Number, default: 0 },
   total: { type: Number, default: 0 },
   totalPaid: { type: Number, default: 0 },
@@ -16,5 +16,6 @@ const billSchema = new Schema({
   store: { type: Schema.Types.ObjectId, ref: "Store" },
   customer: { type: Schema.Types.ObjectId, ref: "Customer" },
 });
+
 const Bill = model("Bill", billSchema);
 export default Bill;
