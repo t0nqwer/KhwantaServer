@@ -52,8 +52,12 @@ export const editDesign = async (req, res) => {
 
     await Promise.all(updateDesign);
 
+    console.log(removeSize);
+
     if (removeSize.length > 0) {
-      await Size.deleteMany({ size: { $in: removeSize } });
+      await Size.deleteMany({
+        $and: [{ design: design._id }, { size: { $in: removeSize } }],
+      });
     }
     if (newSize.length > 0) {
       const createSize = newSize.map((item) => ({
