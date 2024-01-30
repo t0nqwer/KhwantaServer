@@ -13,22 +13,21 @@ export const savebill = async (req, res) => {
       date: req.body.date,
       products: req.body.products,
       CustomProducts: req.body.customProducts,
-      Order: req.body.Order,
+      Order: req.body.Order ? req.body.Order : null,
       payment: req.body.payment,
-      totalBfDisocunt: req.body.totalBfDiscount,
+      totalBfDiscount: req.body.totalBfDiscount,
+      disamout: req.body.amount,
       discount: req.body.distype,
-      total: req.body.total,
-      totalPaid: req.body.totalPaid,
-      totalChange: req.body.totalChange,
-      discountType: req.body.discountType,
-      store: req.body.store,
-      customer: req.body.customer,
+      totalPay: req.body.totalPay,
+      totalChange: req.body.change,
+      distype: req.body.distype,
+      store: app._id,
     };
     console.log(data, "data");
-    // const newBill = new Bill({
-    //   name: `${app.storeRandomId}${req.body.name}`,
-    // });
-    throw new Error("Error");
+
+    const bill = new Bill(data);
+    await bill.save();
+    res.status(200).json(bill);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

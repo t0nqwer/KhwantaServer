@@ -11,6 +11,9 @@ import {
 } from "firebase/storage";
 import sharp from "sharp";
 import CustomerIdCounter from "../models/Counter/customerIdCounter.js";
+import Barcode from "../models/barcode.js";
+import Product from "../models/product.js";
+import Size from "../models/designSize.js";
 const addConstant = async () => {
   await Constant.create({
     designCategory: [
@@ -93,6 +96,22 @@ const insertid = async () => {
   });
   console.log(customer);
 };
+
+const findMissingBarcode = async () => {
+  const barcode = await Barcode.find();
+  const product = await Product.find({
+    supplier: "Khwanta",
+    category: "เสื้อผ้า",
+  });
+  const size = await Size.find();
+  // const missing = product.filter((e) => {
+  //   const check = barcode.find((item) => item.product == e._id);
+  //   if (!check) return e;
+  // });
+  console.log(missing);
+};
+
+console.log();
 
 // const blob = await getBlob(storageRef);
 // console.log(blobUrl);
