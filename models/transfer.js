@@ -17,6 +17,7 @@ const transferSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   successAt: { type: Date },
   product: { type: Array, required: true },
+  EndpointReached: { type: Boolean, default: false },
 });
 const Transfer = model("Transfer", transferSchema);
 export default Transfer;

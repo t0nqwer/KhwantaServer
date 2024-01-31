@@ -6,7 +6,6 @@ import Product from "../../models/product.js";
 import Size from "../../models/designSize.js";
 import { ref, deleteObject } from "firebase/storage";
 import { storage } from "../../firebase.js";
-import { onLog } from "firebase/app";
 
 export const editDesign = async (req, res) => {
   try {
@@ -26,7 +25,6 @@ export const editDesign = async (req, res) => {
     const sizeInputList = [
       ...new Set(req.body.data.sizeInput.map((item) => item.size)),
     ];
-    // console.log(req.body.data.sizeInput);
     const sizeList = size.map((item) => item.size);
     const removeSize = sizeList.filter((item) => !sizeInputList.includes(item));
     const newSize = sizeInputList.filter((item) => !sizeList.includes(item));
@@ -51,8 +49,6 @@ export const editDesign = async (req, res) => {
     });
 
     await Promise.all(updateDesign);
-
-    console.log(removeSize);
 
     if (removeSize.length > 0) {
       await Size.deleteMany({
