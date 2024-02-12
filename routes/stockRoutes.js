@@ -1,5 +1,5 @@
 import express from "express";
-import { getCreateTransfers } from "../controllers/stock/transfer.js";
+import { getCreateTransfers } from "../controllers/stock/CreateTransfer.js";
 import { getAllStore } from "../controllers/store/event.js";
 const router = express.Router();
 

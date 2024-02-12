@@ -20,7 +20,6 @@ export const NewTransfer = async (req, res, next) => {
     await newTransfer.save();
     next();
   } catch (error) {
-    console.log(error.message);
     await Transfer.findOneAndDelete({ localid: _id });
     res.status(409).json({ message: error.message });
   }
@@ -32,7 +31,6 @@ export const deleteTransfer = async (req, res) => {
     await Transfer.findOneAndUpdate({ localid: id }, { status: "cancel" });
     res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error.message);
     res.status(409).json({ message: error.message });
   }
 };

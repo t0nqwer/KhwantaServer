@@ -15,6 +15,7 @@ import lalynnRoutes from "./routes/lalynnRoutes.js";
 import StockProgramRoutes from "./routes/stockProgramRoutes.js";
 import StockRoutes from "./routes/stockRoutes.js";
 import CustomerRoutes from "./routes/customerRoutes.js";
+import TransferRoutes from "./routes/transferRoutes.js";
 import "./functions/function.js";
 import "./functions/addStoreId.js";
 import { io } from "./socket.io/index.js";
@@ -37,6 +38,7 @@ app.use("/lalynnwebsite", lalynnRoutes);
 app.use("/stockApi", StockProgramRoutes);
 app.use("/stock", StockRoutes);
 app.use("/customer", CustomerRoutes);
+app.use("/transfer", TransferRoutes);
 
 connectToDatabase();
 const port = parseInt(process.env.PORT) || 7070;
