@@ -1,10 +1,14 @@
 import express from "express";
-import { getCreateTransfers } from "../controllers/stock/CreateTransfer.js";
-import { getAllStore } from "../controllers/store/event.js";
+
+import {
+  getStockByProduct,
+  getStockByShop,
+} from "../controllers/stock/StockData.js";
+
 const router = express.Router();
 
-router.post("/addStock");
-router.get("/stock");
+router.route("/byshop").get(getStockByShop);
+router.route("/byproduct").get(getStockByProduct);
 // router.route("/createtransfer").get("/store", getAllStore).post();
 
 export default router;

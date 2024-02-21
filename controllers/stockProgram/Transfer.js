@@ -5,21 +5,23 @@ import Store from "../../models/store.js";
 import Size from "../../models//designSize.js";
 import Transfer from "../../models/transfer.js";
 export const NewTransfer = async (req, res, next) => {
-  const { from, to, status, type, _id, createdAt, product } = req.body;
+  const { from, to, status, type, _id, createAt, product } = req.body;
   console.log(req.body);
   try {
+    console.log(new Date(createAt), createAt, "date", Date(createAt));
     const newTransfer = new Transfer({
       from,
       to,
       status,
       type,
       localid: _id,
-      createdAt,
+      createdAt: new Date(createAt),
       product,
     });
     await newTransfer.save();
     next();
   } catch (error) {
+    console.log(error);
     await Transfer.findOneAndDelete({ localid: _id });
     res.status(409).json({ message: error.message });
   }
