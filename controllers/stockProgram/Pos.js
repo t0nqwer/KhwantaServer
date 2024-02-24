@@ -2,11 +2,16 @@ import Bill from "../../models/bill.js";
 import Store from "../../models/store.js";
 
 export const savebill = async (req, res) => {
-  console.log(req.body, "savebill");
   const { storeName } = req.body;
 
   const app = await Store.findOne({ storeName: storeName });
 
+  const check = await Bill.findOne({
+    name: `${app.storeRandomId}-${req.body.name}`,
+  });
+  console.log(check);
+
+  if (check) throw Error;
   try {
     const data = {
       name: `${app.storeRandomId}-${req.body.name}`,
@@ -23,7 +28,6 @@ export const savebill = async (req, res) => {
       distype: req.body.distype,
       store: app._id,
     };
-    console.log(data, "data");
 
     const bill = new Bill(data);
     await bill.save();

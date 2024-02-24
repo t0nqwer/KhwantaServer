@@ -8,7 +8,6 @@ const billSchema = new Schema({
   Order: { type: Schema.Types.ObjectId, ref: "Order" },
   payment: { type: String, enum: ["cash", "credit", "transfer"] },
   totalBfDiscount: { type: Number, default: 0 },
-
   total: { type: Number, default: 0 },
   disamout: { type: Number },
   distype: {
@@ -17,7 +16,7 @@ const billSchema = new Schema({
   },
   totalPay: { type: Number, default: 0 },
   totalChange: { type: Number, default: 0 },
-
+  isStockUpdate: { type: Boolean, default: false },
   store: { type: Schema.Types.ObjectId, ref: "Store" },
   customer: { type: Schema.Types.ObjectId, ref: "Customer" },
 });
