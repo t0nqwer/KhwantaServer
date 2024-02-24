@@ -2,6 +2,7 @@ import axios from "axios";
 import Stock from "../../models/stock.js";
 import Transfer from "../../models/transfer.js";
 import Store from "../../models/store.js";
+import Barcode from "../../models/barcode.js";
 
 export const StockIn = async (req, res, next) => {
   console.log(req.body);
@@ -62,5 +63,28 @@ export const updateStock = async (req, res) => {
     await Promise.all(newStock);
     await Transfer.findOneAndDelete({ localid: _id });
     return res.status(409).json({ message: error.message });
+  }
+};
+
+export const getPrintStock = async (req, res) => {
+  const { shop } = req.params;
+  console.log(shop);
+
+  try {
+    const storeID = await Store.findOne({ name: shop });
+    const Stockdata = await Stock.find({ store: storeID._id });
+    const getProduct = Stockdata.map(async (productdat) => {
+      const productdata = await Barcode.findOne({
+        barcode: productdat.product,
+      }).populate("product");
+      return {
+        ...productdat._doc,
+        product: productdata,
+      };
+    });
+    const finaldata = await Promise.all(getProduct);
+    res.status(200).json(finaldata);
+  } catch (error) {
+    res.status(400).json(error);
   }
 };
