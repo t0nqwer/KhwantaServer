@@ -3,13 +3,12 @@ import Store from "../../models/store.js";
 
 export const savebill = async (req, res) => {
   const { storeName } = req.body;
-
-  const app = await Store.findOne({ storeName: storeName });
+  const app = await Store.findOne({ name: storeName });
 
   const check = await Bill.findOne({
     name: `${app.storeRandomId}-${req.body.name}`,
   });
-  console.log(check);
+  // console.log(check);
 
   if (check) throw Error;
   try {
