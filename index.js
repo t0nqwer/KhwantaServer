@@ -18,6 +18,7 @@ import CustomerRoutes from "./routes/customerRoutes.js";
 import TransferRoutes from "./routes/transferRoutes.js";
 import "./functions/function.js";
 import "./functions/addStoreId.js";
+import "./functions/BillStockUpdate.js";
 import { io } from "./socket.io/index.js";
 dotenv.config();
 const app = express();
